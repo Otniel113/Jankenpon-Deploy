@@ -9,14 +9,23 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = './static/uploads/'
 model = load_model('best_model.h5')
 
-class_dict = {0: 'Batu', 1: 'Gunting', 2: 'Kertas'}
+def convert_prediction(predicted):
+    if (predicted[0] == 1):
+        return('Batu')
+    elif (predicted[1] == 1):
+        return('Gunting')
+    elif (predicted[2] == 1):
+        return('Kertas')
+    else:
+        return('Tidak dapat diprediksi')
 
 def predict_label(img_path):
     loaded_img = load_img(img_path, target_size=(200, 300))
     img_array = img_to_array(loaded_img) / 255.0
     img_array = expand_dims(img_array, 0)
-    predicted_bit = np.round(model.predict(img_array)[0][0]).astype('int')
-    return class_dict[predicted_bit]
+    predicted_bit = np.round(model.predict(img_array)[0]).astype('int')
+    prediction_jankenpon = convert_prediction(predicted_bit)
+    return prediction_jankenpon
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
