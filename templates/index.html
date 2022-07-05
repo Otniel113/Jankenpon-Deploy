@@ -60,6 +60,10 @@
                 </div>
                 {% endif %} {% if prediction %}
                 <p class="mb-8">Hasil Prediksi: {{prediction}}</p>
+                {% endif %} {% if enemy %}
+                <p class="mb-8">Musuh memilih: {{enemy}}</p>
+                {% endif %} {% if battle %}
+                <p class="mb-8">{{battle}}</p>
                 {% endif %}
 
                 <form
